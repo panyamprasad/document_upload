@@ -1,0 +1,48 @@
+# serverless.yml
+service: serverLess-document-upload-api
+provider:
+  name: aws
+  runtime: nodejs18.x
+  apiGateway:
+    # accepted binary type for file uploads
+    binaryMediaTypes:
+      - 'multipart/form-data'
+
+functions:
+  # sync upload
+  uploadFile:
+    handler: build.uploadFile
+    events:
+      - http:
+          method: post
+          path: upload
+          cors: true
+
+resources:
+  Resources:
+    MyServerlessExampleBucket:
+      Type: AWS::S3::Bucket
+      Properties:
+        BucketName: serverless-example-bucket
+
+    # define a policy for an existing role
+    UploadFilePolicy:
+      Type: AWS::IAM::Policy
+      Properties:
+        PolicyName: UploadObjects
+        PolicyDocument:
+          Version: 'policy date'
+          Statement:
+            - Sid: LambdaPutObjects
+              Effect: Allow
+              Action:
+                - s3:PutObject
+                - s3:PutObjectTagging
+              Resource: 
+                Fn::Join:
+                  - ""
+                  - - "arn:aws:s3:::"
+                    - Ref: MyServerlessExampleBucket
+                    - "/*"
+        Roles:
+          - document_upload_role
