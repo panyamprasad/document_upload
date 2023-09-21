@@ -45,4 +45,4 @@ resources:
                     - Ref: MyServerlessExampleBucket
                     - "/*"
         Roles:
-          - document_upload_role~
+          - document_upload_role
