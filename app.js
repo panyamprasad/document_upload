@@ -17,6 +17,7 @@ const uploadFile = async (event) => {
     };
   } catch (_error) {
     // this is not ideal error handling, but good enough for the purpose of this example
+    //Api testing
     return {
       statusCode: 409,
       body: JSON.stringify({
