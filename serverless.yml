@@ -17,6 +17,13 @@ functions:
           method: post
           path: upload
           cors: true
+  downloadFile:
+    handler: app.download
+    events:
+      - http:
+          method: get
+          path: /
+          cors: true
 
 resources:
   Resources:
